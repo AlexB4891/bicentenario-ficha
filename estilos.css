@@ -1,0 +1,81 @@
+/* Estilos para la TOC */
+.toc {
+    position: -webkit-sticky; /* Para Safari */
+    position: sticky;
+    top: 0;
+}
+
+/* Estilos para títulos */
+h1 {
+    background-color: green;
+    color: white;
+    padding: 5px 10px;
+    position: relative;
+}
+
+h1:before {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background-color: darkgreen;
+}
+
+
+h2, h3, h4{
+    color: rgba(112, 143, 52, 0.815);
+    
+}
+
+/* Estilos para blockquotes */
+blockquote {
+    background-color: #f9f9f980;
+    border-left: 10px solid rgba(0, 128, 0, 0.664);
+    padding: 0.5em 10px;
+}
+
+/* Estilos para enlaces y negritas */
+a {
+    color: #007bff; /* Cambia este color según prefieras */
+}
+
+strong {
+    color: #000; /* Cambia este color según prefieras */
+}
+
+.sidebar nav[role=doc-toc]>h2, .sidebar nav[role=doc-toc]>.h2 {
+    background-color: green;
+    color: white;
+    padding: 5px 10px;
+    position: relative;
+}
+
+.sidebar nav[role=doc-toc]>h2:before, .sidebar nav[role=doc-toc]>.h2:before {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background-color: darkgreen;
+}
+
+.sidebar nav[role=doc-toc]>ul {
+    margin-left: .45em;
+    margin-top: 1em;
+}
+
+h1.title, .title.h1 {
+    text-justify: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    background-color: #198754
+}
+
+#title-block-header.quarto-title-block.default .quarto-title-meta-heading {
+    
+    margin-top: 2em;
+    
+}
