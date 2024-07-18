@@ -1,0 +1,304 @@
+---
+title: "Índice de adopción de TICs de las empresas en Ecuador y su evolución pre y post pandemia COVID-19"
+subtitle: "Un enfoque de Análisis de Factores Múltiples"
+author: 
+  - Alex Bajaña
+  - Kathia Pinzón
+  - Paúl Yungán
+institute: 
+  - OBS Business School
+  - Escuela Politécnica Nacional
+  - Escuela Politécnica Nacional
+date: "08/09/2023"
+date-meta: "dd/MM/YYYY"
+embed-resources: true
+format: 
+  umr1283-revealjs:
+    fontsize: 20pt
+---
+
+```{r}
+#| include: false
+showtext::showtext_auto()
+source("_extensions/umr1283/umr1283/setup-ggplot2-umr1283.R")
+```
+
+
+## Introducción
+
+-	Las Tecnologías de la Información y Comunicación (TIC's) comprenden todo tipo de software y hardware utilizado para crear, manipular, y comunicar información en sus diversas formas. 
+-	Es bien conocido, sobre todo a partir de la pandemia de COVID-19, que estas desempeñan un papel importante en la consecución del desarrollo económico y social en las economías: facilitan la generación de innovaciones, mejoran la calidad y eficiencia en la toma de decisiones, incrementan la demanda para las empresas y reducen sus costos, y a su vez impulsan diversas formas de empleo. 
+
+> *Luego de más de una década de políticas para impulsar un mayor acceso y uso de estas tecnologías, los países de América Latina y el Caribe han logrado avances significativos (...) no obstante, avanzan a velocidades distintas y con grandes brechas, tanto entre ellos como en el interior de cada uno, además de con fuertes rezagos respecto de las economías más desarrolladas.*
+
+## Introducción (.cont)
+
+* Hay brechas sustanciales entre empresas pequeñas y grandes, así como entre sectores, especialmente para nuevas inversiones en soluciones digitales.
+-	La presente investigación aporta en el estudio de esta temática, mediante la generación de un **Índice de adopción de TIC's para el caso de Ecuador, que constituye una medición del nivel de adopción de TIC's desde la perspectiva de las empresas.**
+
+## La importancia de TIC's en el contexto de la pandemia COVID-19
+
+* La pandemia de COVID-19 aceleró la transformación digital de las empresas.
+* Las empresas aumentaron el uso de plataformas digitales e invirtieron en soluciones digitales, pero también aumentó la brecha digital.
+* La adopción local de TIC's mitiga las consecuencias del mercado laboral de la pandemia para todos los individuos, independientemente del género y la raza, excepto aquellos con el nivel más bajo de educación. 
+* Las empresas que no usaban plataformas o canales digitales antes de la pandemia también se retrasaron en su respuesta a la pandemia, aumentando la brecha con las que estaban más preparadas digitalmente.
+* La pandemia aceleró la digitalización, pero algunas empresas se beneficiaron desproporcionadamente de la transformación digital, lo que potencialmente aumentó la brecha digital. 
+* En áreas donde las empresas adoptaron más TIC's, la tasa de desempleo aumentó menos en respuesta al **distanciamiento social**. 
+
+[^1]: *Firms’ Digitalization during the COVID-19 Pandemic A Tale of Two Stories
+* Banco Mundial (Enero 2023) 
+
+
+
+
+[^1]: https://www.cepal.org/es/temas/tecnologias-de-la-informacion-y-las-comunicaciones-tic/acerca-tecnologias-la-informacion
+[^2]: FMI: IT Shields: Technology Adoption and Economic Resilience during the COVID-19 Pandemic
+
+## Objetivos e hipótesis
+
+Hipótesis:
+
+1. Es posible caracterizar las empresas de acuerdo a su nivel de adopción y uso de TIC's
+
+2. A partir de la pandemia COVID-19 hubo un incremento en la adopción y uso de TIC's
+
+
+### Objetivo
+<br>
+
+- Crear de un **Índice de adopción de TICS** definido para cada sector de actividad económica descrito en la **Encuesta Empresarial Estructural (ENESEM - INEC)**. Considerando principalmente el *Módulo TIC's* de esta encuesta para describir las dinámicas de adopción de TICS pre y post pandemia.
+
+
+## La ENESEM 🏢
+
+La Encuesta Estructural Empresarial (ENESEM) tiene 2 objetivos:
+
+::: columns
+::: {.column width="50%"}
+Calcular agregados económicos 💸
+
+-   Producción
+
+-   Consumo intermedio
+
+-   Valor agregado
+
+-   Entre otros.
+:::
+
+::: {.column width="50%"}
+Presentar información sobre: 🧑‍🏭
+
+-   Materias primas y productos elaborados
+
+-   Mercaderías y servicios vendidos
+
+-   Uso de tecnologías y comunicación (TIC)
+:::
+:::
+
+### Diseño muestral:
+
+::: incremental
+-   **Universo de analisis**
+
+    -   Las empresas de tamaño grande, mediana A y mediana B que cumplen con los criterios de clasificación de cobertura temática para el año 2019.
+
+-   **Unidades de analisis**
+
+    -   Empresas
+
+-   **Tipo de muestreo**
+
+    -   Muestreo probabilístico de elementos con selección aleatoria.
+:::
+## Limitaciones de la ENESEM: 🚨
+
+-   La encuesta está dirigida a empresas.
+
+-   Se incluyen todas las actividades económicas clasificadas con CIIU salvo por:
+
+    -   ***A.*** Agricultura, ganadería, silvicultura y pesca.
+
+    -   ***O.*** Administración pública y defensa; planes de seguridad social de afiliación obligatoria.
+
+    -   ***T.*** Actividades de los hogares como empleadores; actividades no diferenciadas de los hogares como productores de bienes y servicios para uso propio.
+
+    -   ***U.*** Actividades de organizaciones y órganos extraterritoriales
+
+## Empresas dentro de cada sector
+
+```{r, echo=FALSE}
+
+library(here)
+library(tidyverse)
+library(gt)
+library(readxl)
+
+
+tabla_conteo <- read_csv(here("bases","procesadas","tabla_conteo.csv"))
+
+tabla_conteo %>% 
+  filter(des_sector %in% c("Comercio","Construcción","Manufactura")) %>% 
+  group_by(des_sector) %>% 
+  select(-1) %>% 
+  gt() %>% 
+  fmt_number(columns = 3:6,decimals = 0) %>% 
+  cols_label(des_tamano = "") %>% 
+  tab_options(
+    table.width = px(600),
+  ) %>% 
+  gtExtras::gt_theme_538()
+```
+
+
+## Empresas dentro de cada sector (.cont)
+
+```{r, echo=FALSE}
+tabla_conteo %>% 
+  filter(!des_sector %in% c("Comercio","Construcción","Manufactura")) %>% 
+  group_by(des_sector) %>% 
+  select(-1) %>% 
+  gt() %>% 
+  fmt_number(columns = 3:6,decimals = 0) %>% 
+  cols_label(des_tamano = "") %>% 
+  tab_options(
+    table.width = px(600),
+  )%>% 
+  gtExtras::gt_theme_538()
+```
+
+## Estadística descriptiva
+
+![](stats.png){fig-align="center"}
+
+## El análisis factorial multiple
+
+- El análisis factorial múltiple (AFM) es un método de reducción de dimensiones, en el cual un grupo de individuos que es descrito por un conjunto de variables (cuantitativas y/o cualitativas) estructuradas en grupos, es representado por un conjunto menor de variables (dependiendo de cuántas representen un alto porcentaje de la variabilidad del entorno multidimensional inicial). 
+
+- Este método corresponde a una generalización del análisis de componentes principales (ACP) cuando las variables son cuantitativas, el análisis de correspondencias múltiples (ACM) cuando las variables son cualitativas, y el análisis factorial de datos mixtos (FAMD) cuando las variables pertenecen a los dos tipos.
+
+## Grupos de variables para crear el índice
+
+De acuerdo con United Nations (2005) y Ziemba (2020), las dimensiones bajo las cuales se puede medir el nivel de adopción de TICs en las empresas a nivel mundial son las siguientes:
+
+-	**Inversión en TICs:** Capacidades financieras que se han usado para la adopción de TICs. 
+-	**Cultura respecto del uso de TICs:** Se compone de factores digitales y socioculturales, y de competencias de los empleados y directivos de las empresas, respecto del uso de TICs. 
+-	**Gestión respecto de la adopción de TICs:** Comprende la existencia e implementación de procesos, al interior de la empresa, tendientes a facilitar la adopción de TICs. 
+-	**Calidad de TICs:** Hace referencia a la forma de funcionamiento de las TICs que han sido adoptadas e implementadas por la empresa, es decir, sus características tanto físicas como de entorno virtual y electrónico. 
+-	**Uso de TICs en el comercio (compras y ventas):** Se refiere a la intensidad del uso de TICs dentro de las operaciones de compras y ventas de la empresa.
+
+## Conteo de variables en los grupos
+
+```{r}
+variables <- read_excel(here("bases","diccionarios","tabla_resumen_var.xlsx"),
+                        range = "B11:D18")
+
+variables %>% 
+  group_by(`Grupo de variables`) %>% 
+  gt() %>% 
+  tab_options(
+    table.width = px(300),
+  )%>% 
+  gtExtras::gt_theme_nytimes()
+```
+
+## Variables en cada grupo
+
+![](varg1.png)
+
+## Variables en cada grupo
+
+![](varg2.png)
+
+## Construcción del índice
+
+Para la construcción seguimos los siguientes pasos:
+1. Empleamos el Análisis de Factores Múltiples (MFA) con los datos de las empresas en el periodo 2018-2021
+2. El indicador sigue la siguiente formula
+
+$$Índice_{s} = \sum_{g = 1}^{5}\sum_{k_s = 1}^{K_s} \gamma_{gk_s}\times Dim_{gk_s}$$
+Donde: 
+
+- $s$ indica el sector de actividad.
+- $K_s$ indica el número de dimensiones derivadas del MFA que capturan el 75% de la varianza en cada sector $s$
+- $g$ son los grupos de variables definidos para el MFA
+- $Dim_{gk_s}$ La proyección $k_s$ para el grupo $g$ 
+- $\gamma_{gk_s}$ El valor propio asociado a la proyección $k_s$
+
+
+## Construcción del índice (.cont)
+
+Llevamos el indicador a escala (0,1) con la siguiente formula:
+
+$$
+z_{is} = \frac{I_{is} - min(I_{s})}{max(I_{s}) - min(I_{s})}
+$$
+Donde: 
+
+- $I_{is}$ indica el valor del indicador para la empresa $i$ del sector de actividad $s$
+- $z_{is}$ indica el valor normalizado de este indicador
+- Esta fórmula no altera la distribución del indicador
+- El valor de 0 indica un mínimo de adopción TIC's mientras que el valor de 1 el nivel máximo de adopción de TIC's (en la muestra)
+
+
+## Evolución del indicador global
+
+![](global.png){fig-align="center"}
+
+## 
+
+![](distribucion_indicador_mfa.png){fig-align="center"}
+
+## Índice provincial para el comercio
+
+![](mapa_comercio.png){fig-align="center"}
+
+## Índice provincial para la construcción
+
+![](mapa_construccion.png){fig-align="center"}
+
+## Índice provincial para la manufactura
+
+![](mapa_manufactura.png){fig-align="center"}
+
+## Índice provincial para la minería
+
+![](mapa_mineria.png){fig-align="center"}
+
+## Índice provincial para los servicios
+
+![](mapa_servicios.png){fig-align="center"}
+
+
+
+
+## Evolución de la media del indicador
+
+![](media.png){fig-align="center"}
+
+## Evolución de la mediana del indicador
+
+![](mediana.png){fig-align="center"}
+
+
+
+## Conclusiones
+
+- Los resultados muestran una caracterización detallada del nivel de adopción de TICs en el país, tanto antes como después de la pandemia de COVID-19. 
+Durante todos los años analizados, se evidencian mayores valores promedio del índice, de todos los sectores, en las provincias de Pichincha, Guayas, y Azuay. 
+- Se puede observar que, a raíz de la pandemia de COVID-19, inicialmente existió un declive inmediato en todos los sectores en adopción de TICs, sin embargo, para el siguiente período el índice incrementó, superando incluso los niveles previos a la pandemia.
+
+- Pudimos corroborrar que la adopción te TIC's es desproporcionada y heteogenea entre sectores y provincias del Ecuador
+
+- La adopción de tics es un proceso que se lleva a cabo en el mediano plazo
+
+## Conclusiones
+
+- En el caso de comercio vemos como a partir de la pandemia las empresas del Cañar incrementan su nivel de participación en TIC's, caso similar se da en la provincia de Loja, la cual se ha convertido en un centro para la innovación tecnológica.
+
+- En el caso de la construcción vemos como se intensifica la presencia de emppresas con adopción de TIC's en las provincias del sur de la amazonia.
+
+- En el caso de manufactura la provincia en la que se evidencia la reducción en 2020 y posterior recuperación es Orellana principalmente la producción de productos agricolas manufacturados
+
+- En Zamora Chinchipe vemos como la presencia del proyecto Fruta del Norte y Mirador incentivo a la adopción de TIC's en la provincia.
